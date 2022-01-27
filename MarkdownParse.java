@@ -36,7 +36,7 @@ public class MarkdownParse {
             }
             
             toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1; 
+            currentIndex = closeParen + 1;          
         }
         return toReturn;
     }
@@ -48,8 +48,18 @@ public class MarkdownParse {
         at java.base/java.lang.String.substring(String.java:2704)
         at MarkdownParse.getLinks(MarkdownParse.java:38)
         at MarkdownParse.main(MarkdownParse.java:52)
-        
+
         for image.md: [google.com, fake.png]
+
+        for new-file.md (Infinite loop): Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+        at java.base/java.util.Arrays.copyOf(Arrays.java:3481)
+        at java.base/java.util.ArrayList.grow(ArrayList.java:237)
+        at java.base/java.util.ArrayList.grow(ArrayList.java:244)
+        at java.base/java.util.ArrayList.add(ArrayList.java:454)
+        at java.base/java.util.ArrayList.add(ArrayList.java:467)
+        at MarkdownParse.getLinks(MarkdownParse.java:38)
+        at MarkdownParse.main(MarkdownParse.java:52)
     */
 
     public static void main(String[] args) throws IOException {
