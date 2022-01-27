@@ -48,6 +48,8 @@ public class MarkdownParse {
         at java.base/java.lang.String.substring(String.java:2704)
         at MarkdownParse.getLinks(MarkdownParse.java:38)
         at MarkdownParse.main(MarkdownParse.java:52)
+        
+        for image.md: [google.com, fake.png]
     */
 
     public static void main(String[] args) throws IOException {
