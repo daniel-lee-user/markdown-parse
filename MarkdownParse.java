@@ -25,6 +25,7 @@ public class MarkdownParse {
                     continue;
                 }
             }
+            
             //in case of brackets or parenthesis in the link
             if(closeParen+1 != markdown.length()) {
                 // looks for newline while making sure that

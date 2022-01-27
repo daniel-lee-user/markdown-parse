@@ -33,5 +33,12 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         assertEquals(links, List.of("google.com"));
     }
+    @Test
+    public void checkNew() throws IOException {
+        String filename = "new-file.md";
+	    String contents = Files.readString(Path.of(filename));
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(links, List.of("google.com", "some-()()([][][][])()()page().html"));
+    }
     
 }
