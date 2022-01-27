@@ -15,6 +15,7 @@ public class MarkdownParse {
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
+            
             if(closeParen == -1) {
                 return toReturn;
             }
@@ -33,14 +34,22 @@ public class MarkdownParse {
                     closeParen = markdown.indexOf(")", closeParen+1); 
                 }
             }
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1;
-            //System.out.println(currentIndex);
-            //System.out.println(markdown.length());
             
+            toReturn.add(markdown.substring(openParen + 1, closeParen));
+            currentIndex = closeParen + 1; 
         }
         return toReturn;
     }
+
+    /*
+    Documenting errors:
+        for incorrect.md: Exception in thread "main" java.lang.StringIndexOutOfBoundsException: begin 18, end -1, length 28
+        at java.base/java.lang.String.checkBoundsBeginEnd(String.java:4601)
+        at java.base/java.lang.String.substring(String.java:2704)
+        at MarkdownParse.getLinks(MarkdownParse.java:38)
+        at MarkdownParse.main(MarkdownParse.java:52)
+    */
+
     public static void main(String[] args) throws IOException {
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
