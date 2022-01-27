@@ -15,19 +15,29 @@ public class MarkdownParse {
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
+            if(closeParen == -1) {
+                return toReturn;
+            }
             if(nextOpenBracket > 0) {
                 if(markdown.charAt(nextOpenBracket-1) == '!') {
                     currentIndex = closeParen+1;
                     continue;
                 }
             }
-            if(closeParen == -1) {
-                return toReturn;
+            //in case of brackets or parenthesis in the link
+            if(closeParen+1 != markdown.length()) {
+                // looks for newline while making sure that
+                // closing parenthesis index is not right before markdown length
+                while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2) { 
+                    //updates closeParen if new line is not right after closing parenthesis
+                    closeParen = markdown.indexOf(")", closeParen+1); 
+                }
             }
             toReturn.add(markdown.substring(openParen + 1, closeParen));
             currentIndex = closeParen + 1;
-            System.out.println(currentIndex);
-            System.out.println(markdown.length());
+            //System.out.println(currentIndex);
+            //System.out.println(markdown.length());
+            
         }
         return toReturn;
     }
