@@ -19,13 +19,17 @@ public class MarkdownParse {
             if(closeParen == -1) {
                 return toReturn;
             }
+            
             if(nextOpenBracket > 0) {
                 if(markdown.charAt(nextOpenBracket-1) == '!') {
                     currentIndex = closeParen+1;
                     continue;
                 }
             }
-            
+            if(closeParen > markdown.indexOf("\n",openParen) && markdown.indexOf("\n", openParen) != -1) {
+                currentIndex = markdown.indexOf("\n",openParen)+1;
+                continue;
+            }
             //in case of brackets or parenthesis in the link
             if(closeParen+1 != markdown.length()) {
                 // looks for newline while making sure that

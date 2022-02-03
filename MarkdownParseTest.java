@@ -24,7 +24,7 @@ public class MarkdownParseTest {
         String filename = "incorrect.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of());
+        assertEquals(links, new ArrayList<>());
     }
     @Test
     public void checkImage() throws IOException {
@@ -40,5 +40,25 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         assertEquals(links, List.of("google.com", "some-()()([][][][])()()page().html"));
     }
-    
+    @Test
+    public void checkImage2() throws IOException {
+        String filename = "test-file-image.md";
+	    String contents = Files.readString(Path.of(filename));
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(links, List.of("something.com"));
+    }
+    @Test
+    public void checkInfinite() throws IOException {
+        String filename = "test-file-infinite.md";
+	    String contents = Files.readString(Path.of(filename));
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(links, List.of("boo.com()"));
+    }
+    @Test
+    public void checkMissingParen() throws IOException {
+        String filename = "test-file-missing-paren.md";
+	    String contents = Files.readString(Path.of(filename));
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(links, List.of("itsalink.com"));
+    }
 }
