@@ -36,7 +36,7 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
         assertEquals(List.of("google.com", "some-()()([][][][])()()page().html"), links);
     }
-    /*
+    
     @Test
     public void checkImage2() throws IOException {
         String filename = "test-file-image.md";
@@ -55,5 +55,4 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
         assertEquals(List.of("itsalink.com"), links);
     }
-    */
 }
