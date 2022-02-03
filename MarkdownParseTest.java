@@ -18,7 +18,7 @@ public class MarkdownParseTest {
         String filename = "test-file.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("https://something.com", "some-page.html"));
+        assertEquals(List.of("https://something.com", "some-page.html"), links);
         System.out.println(links);
 
     }
@@ -27,14 +27,14 @@ public class MarkdownParseTest {
         String filename = "incorrect.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, new ArrayList<>());
+        assertEquals(new ArrayList<>(), links);
     }
     @Test
     public void checkImage() throws IOException {
         String filename = "image.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("google.com"));
+        assertEquals(List.of("google.com"), links);
         System.out.println(links);
 
     }
@@ -43,27 +43,27 @@ public class MarkdownParseTest {
         String filename = "new-file.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("google.com", "some-()()([][][][])()()page().html"));
+        assertEquals(List.of("google.com", "some-()()([][][][])()()page().html"), links);
     }
     @Test
     public void checkImage2() throws IOException {
         String filename = "test-file-image.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("something.com"));
+        assertEquals(List.of("something.com"), links);
     }
     @Test
     public void checkInfinite() throws IOException {
         String filename = "test-file-infinite.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("boo.com()"));
+        assertEquals(List.of("boo.com()"), links);
     }
     @Test
     public void checkMissingParen() throws IOException {
         String filename = "test-file-missing-paren.md";
 	    String contents = Files.readString(Path.of(filename));
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(links, List.of("itsalink.com"));
+        assertEquals(List.of("itsalink.com"), links);
     }
 }
