@@ -26,10 +26,12 @@ public class MarkdownParse {
                     continue;
                 }
             }
+            /*
             if(closeParen > markdown.indexOf("\n",openParen) && markdown.indexOf("\n", openParen) != -1) {
                 currentIndex = markdown.indexOf("\n",openParen)+1;
                 continue;
             }
+            */
             //in case of brackets or parenthesis in the link
             if(closeParen+1 != markdown.length()) {
                 // looks for newline while making sure that
