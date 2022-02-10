@@ -34,7 +34,9 @@ public class MarkdownParse {
             if(closeParen+1 != markdown.length()) {
                 // looks for newline while making sure that
                 // closing parenthesis index is not right before markdown length
-                while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2) { 
+                while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1) { 
+                    // closeParen+1 is \n for unix systems but closeParen+2 is \n for windows systems.
+                    System.out.println("nope");
                     //updates closeParen if new line is not right after closing parenthesis
                     closeParen = markdown.indexOf(")", closeParen+1); 
                 }

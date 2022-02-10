@@ -17,7 +17,7 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
         assertEquals(new ArrayList<>(), links);
     }
-    /*
+    
     @Test
     public void checkLinks() throws IOException {
         String filename = "test-file.md";
@@ -43,7 +43,7 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
         assertEquals(List.of("something.com"), links);
     }
-    */
+    
     @Test
     public void checkInfinite() throws IOException {
         String filename = "test-file-infinite.md";
