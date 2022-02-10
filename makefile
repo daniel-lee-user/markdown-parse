@@ -1,2 +1,2 @@
 test: MarkdownParseTest.java MarkdownParse.java
-	javac MarkidownParseTest.java MarkdownParse.java
+	javac MarkdownParseTest.java MarkdownParse.java
