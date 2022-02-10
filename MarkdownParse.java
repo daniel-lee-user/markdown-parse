@@ -47,7 +47,6 @@ public class MarkdownParse {
                     }
                 } else {
                     while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1) { 
-                        System.out.println("hello");
                         closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 }
