@@ -48,7 +48,8 @@ public class MarkdownParse {
 
                 if(System.getProperty("os.name").contains("Win")) {
                     //System.out.println("hi");
-                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2 && closeParen != -1) { 
+                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2 
+                        && closeParen != -1) { 
                         closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 } else {
