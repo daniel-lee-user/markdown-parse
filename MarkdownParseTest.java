@@ -10,6 +10,7 @@ public class MarkdownParseTest {
     @Test
     public void addition() {
         assertEquals(2, 1 + 1);
+        // testing if junit works
     }
     @Test
     public void checkIncorrect() throws IOException {
@@ -55,5 +56,23 @@ public class MarkdownParseTest {
         String filename = "test-file-missing-paren.md";
         ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
         assertEquals(List.of("itsalink.com"), links);
+    }
+    @Test
+    public void testSpaceBetweenLink() throws IOException {
+        String filename = "space-between-link.md";
+        ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
+        assertEquals(List.of("a-link.html"), links);
+    }
+    @Test
+    public void testLinksWithExtra() throws IOException {
+        String filename = "link-with-para.md";
+        ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
+        assertEquals(List.of("https://something.com","some-page.html"), links);
+    }
+    @Test
+    public void testSpaceInLink() throws IOException {
+        String filename = "space-in-url.md";
+        ArrayList<String> links = MarkdownParse.getLinks(Files.readString(Path.of(filename)));
+        assertEquals(List.of("space-in-url.com","linktest.com", "linktest2.com"), links);
     }
 }

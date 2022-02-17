@@ -16,10 +16,16 @@ public class MarkdownParse {
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
             
-            if(closeParen == -1) {
+            if(nextOpenBracket == -1 || nextCloseBracket == -1
+            || closeParen == -1 || openParen == -1) {
                 return toReturn;
             }
             
+            // plan: check for ( right after ]
+            if(markdown.charAt(nextCloseBracket+1) != '(') {
+                currentIndex = nextCloseBracket+1;
+                continue;
+            }
             if(nextOpenBracket > 0) {
                 if(markdown.charAt(nextOpenBracket-1) == '!') {
                     currentIndex = closeParen+1;
@@ -42,18 +48,25 @@ public class MarkdownParse {
 
                 if(System.getProperty("os.name").contains("Win")) {
                     //System.out.println("hi");
-                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2) { 
+                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2 && closeParen != -1) { 
                         closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 } else {
-                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1) { 
+                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1 && closeParen != -1) { 
                         closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 }
                 
             }
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1;
+            String possibleLink = markdown.substring(openParen + 1, closeParen);
+            possibleLink = possibleLink.trim();
+            if(possibleLink.indexOf("\n") == -1 && possibleLink.indexOf(" ") == -1) {
+                toReturn.add(possibleLink);
+                currentIndex = closeParen + 1;
+            } else {
+                currentIndex = currentIndex+1;
+            }
+            
         }
         return toReturn;
     }
