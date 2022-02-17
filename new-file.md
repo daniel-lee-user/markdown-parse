@@ -1,2 +1,2 @@
 [norm link](google.com)
-[broken link!](some-()()([][][][])()()page().html)
+[link with matching parenthesis!](some-()()([][][][])()()page().html)

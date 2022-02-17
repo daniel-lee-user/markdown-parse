@@ -45,15 +45,41 @@ public class MarkdownParse {
                 // see stackoverflow https://superuser.com/questions/1091980/why-are-windows-line-breaks-larger-than-unix-line-breaks
                 // updates closeParen if new line is not right after closing parenthesis
                 //System.out.println(System.getProperty("os.name"));
-
+                int numOpenParen = 0;
+                int numCloseParen = 0;
+                int tempOpenParen = openParen;
+                //boolean weirdFinish = false;
                 if(System.getProperty("os.name").contains("Win")) {
                     //System.out.println("hi");
-                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+2 
-                        && closeParen != -1) { 
-                        closeParen = markdown.indexOf(")", closeParen+1); 
+                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",openParen) != closeParen+2 
+                        && closeParen != -1 && numCloseParen <= numOpenParen) { 
+                        while(markdown.indexOf("(", tempOpenParen+1) != -1 && markdown.indexOf("(", tempOpenParen+1) < closeParen) {
+                            //System.out.println("hello " + tempOpenParen);
+                            numOpenParen++;
+                            tempOpenParen = markdown.indexOf("(", tempOpenParen+1);
+                        }
+                        closeParen = markdown.indexOf(")", closeParen+1);
+                        numCloseParen++;
+                    }
+                    //System.out.println(numOpenParen);
+                    //System.out.println(numCloseParen);
+                    //System.out.println(closeParen);
+                    if(numCloseParen != numOpenParen) {
+                        //System.out.println("wrong");
+                        currentIndex = closeParen+1;
+                        continue;
                     }
                 } else {
-                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1 && closeParen != -1) { 
+                    while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1
+                        && closeParen != -1) { 
+                        if(markdown.indexOf("(", openParen+1) != -1 && markdown.indexOf("(", openParen+1) < closeParen) {
+                            numOpenParen++;
+                        } 
+                        closeParen = markdown.indexOf(")", closeParen+1);
+                        numCloseParen++;
+                        if(numCloseParen > numOpenParen) {
+                            break;
+                        }
                         closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 }
