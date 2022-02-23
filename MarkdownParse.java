@@ -71,16 +71,14 @@ public class MarkdownParse {
                     }
                 } else {
                     while(closeParen+1 < markdown.length() && markdown.indexOf("\n",closeParen) != closeParen+1
-                        && closeParen != -1) { 
-                        if(markdown.indexOf("(", openParen+1) != -1 && markdown.indexOf("(", openParen+1) < closeParen) {
+                        && closeParen != -1 && numCloseParen <= numOpenParen) { 
+                        while(markdown.indexOf("(", tempOpenParen+1) != -1 && markdown.indexOf("(", tempOpenParen+1) < closeParen) {
+                            //System.out.println("hello " + tempOpenParen);
                             numOpenParen++;
-                        } 
+                            tempOpenParen = markdown.indexOf("(", tempOpenParen+1);
+                        }
                         closeParen = markdown.indexOf(")", closeParen+1);
                         numCloseParen++;
-                        if(numCloseParen > numOpenParen) {
-                            break;
-                        }
-                        closeParen = markdown.indexOf(")", closeParen+1); 
                     }
                 }
                 
