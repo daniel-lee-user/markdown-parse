@@ -20,7 +20,10 @@ public class MarkdownParse {
             || closeParen == -1 || openParen == -1) {
                 return toReturn;
             }
-            
+            if(closeParen > markdown.indexOf("\n", openParen)
+                && markdown.indexOf("\n", markdown.indexOf("\n", openParen))-2 <= markdown.indexOf("\n", openParen)) {
+                return toReturn;
+            }
             // plan: check for ( right after ]
             if(markdown.charAt(nextCloseBracket+1) != '(') {
                 currentIndex = nextCloseBracket+1;
