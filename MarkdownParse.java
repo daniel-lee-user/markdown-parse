@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -129,14 +133,45 @@ public class MarkdownParse {
         at MarkdownParse.getLinks(MarkdownParse.java:38)
         at MarkdownParse.main(MarkdownParse.java:52)
     */
-
+    public static Map<String, List<String>> getLinks(File dirOrFile) throws IOException {
+        Map<String, List<String>> result = new HashMap<>();
+        if(dirOrFile.isDirectory()) {
+            for(File f: dirOrFile.listFiles()) {
+                result.putAll(getLinks(f));
+            }
+            return result;
+        }
+        else {
+            Path p = dirOrFile.toPath();
+            int lastDot = p.toString().lastIndexOf(".");
+            if(lastDot == -1 || !p.toString().substring(lastDot).equals(".md")) {
+                return result;
+            }
+            String contents = Files.readString(p);
+            if(contents.indexOf("(") != -1 && contents.indexOf(")") != -1
+                && contents.indexOf("[") != -1 && contents.indexOf("]") != -1) {
+                //System.out.println(p.toString() + " has all characters");
+            }
+            ArrayList<String> links = getLinks(contents);
+            result.put(dirOrFile.getPath(), links);
+            return result;
+        }
+    }
     public static void main(String[] args) throws IOException {
+        /*
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = getLinks(contents);
         System.out.println(links);
+        */
+        Map<String, List<String>> links = getLinks(new File(args[0]));
+        for(String key: links.keySet()) {
+            System.out.println(links.get(key));
+        }
+        //System.out.println(links);
     }
 }
+
 class LinkVisitor extends AbstractVisitor {
     ArrayList<String> listOfLinks = new ArrayList<String>();
 
