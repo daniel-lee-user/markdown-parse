@@ -1,6 +1,7 @@
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import java.util.ArrayList;
 
 class TryCommonMark {
     public static void main(String[] args) {
@@ -13,6 +14,10 @@ class TryCommonMark {
         WordCountVisitor visitor = new WordCountVisitor();
         node.accept(visitor);
         System.out.println(visitor.wordCount + " wordcount");  // 4
+        Node node2 = parser.parse("[link](www.google.com) [link](cse15l().com)");
+        LinkVisitor linkvisit = new LinkVisitor();
+        node2.accept(linkvisit);
+        System.out.println(linkvisit.listOfLinks);  // 4
     }
 }
 
@@ -30,5 +35,18 @@ class WordCountVisitor extends AbstractVisitor {
 
         // Descend into children (could be omitted in this case because Text nodes don't have children).
         visitChildren(text);
+    }
+}
+
+class LinkVisitor extends AbstractVisitor {
+    ArrayList<String> listOfLinks = new ArrayList<String>();
+
+    @Override
+    public void visit(Link link) {
+        // This is called for all Link nodes. Override other visit methods for other node types.
+
+        listOfLinks.add(link.getDestination());
+        // Descend into children (could be omitted in this case because Text nodes don't have children).
+        visitChildren(link);
     }
 }
