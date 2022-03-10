@@ -3,10 +3,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
-        ArrayList<String> toReturn = new ArrayList<>();
+        Parser parser = Parser.builder().build();
+        Node node2 = parser.parse(markdown);
+        LinkVisitor linkvisit = new LinkVisitor();
+        node2.accept(linkvisit);
+        return linkvisit.listOfLinks;
+        /*
+        //ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then take up to
         // the next )
         int currentIndex = 0;
@@ -97,6 +106,7 @@ public class MarkdownParse {
             
         }
         return toReturn;
+        */
     }
 
     /*
@@ -125,5 +135,17 @@ public class MarkdownParse {
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = getLinks(contents);
         System.out.println(links);
+    }
+}
+class LinkVisitor extends AbstractVisitor {
+    ArrayList<String> listOfLinks = new ArrayList<String>();
+
+    @Override
+    public void visit(Link link) {
+        // This is called for all Link nodes. Override other visit methods for other node types.
+
+        listOfLinks.add(link.getDestination());
+        // Descend into children (could be omitted in this case because Text nodes don't have children).
+        visitChildren(link);
     }
 }
